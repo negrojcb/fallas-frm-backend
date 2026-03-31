@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const pool = require("./db/pool");
+const fallerosRoutes = require("./routes/fallerosRoutes");
 
 dotenv.config();
 
@@ -29,5 +30,7 @@ app.get("/test-db", async (req, res) => {
     });
   }
 });
+
+app.use("/api/falleros", fallerosRoutes);
 
 module.exports = app;
