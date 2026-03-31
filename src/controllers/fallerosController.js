@@ -1,6 +1,7 @@
 const {
   getAllFalleros,
   getFalleroById,
+  createFallero,
 } = require("../queries/fallerosQueries");
 
 const getFalleros = async (req, res) => {
@@ -33,7 +34,27 @@ const getFallero = async (req, res) => {
   }
 };
 
+const postFallero = async (req, res) => {
+  try {
+    const newFallero = await createFallero(req.body);
+    res.status(201).json(newFallero);
+  } catch (error) {
+    console.error(error);
+
+    if (error.code === "23505") {
+      return res.status(409).json({
+        message: "A fallero with this DNI already exists",
+      });
+    }
+    res.status(500).json({
+      message: "Error creating fallero",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getFalleros,
   getFallero,
+  postFallero,
 };
