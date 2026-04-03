@@ -4,6 +4,7 @@ const {
   createFallero,
   updateFallero,
   toggleFalleroActive,
+  getPagosByFalleroId,
 } = require("../queries/fallerosQueries");
 
 const getFalleros = async (req, res) => {
@@ -26,7 +27,9 @@ const getFallero = async (req, res) => {
     if (!fallero) {
       return res.status(404).json({ message: "Fallero not found" });
     }
-    res.json(fallero);
+
+    const pagos = await getPagosByFalleroId(id);
+    res.json({ fallero, pagos });
   } catch (error) {
     console.error(error);
     res.status(500).json({

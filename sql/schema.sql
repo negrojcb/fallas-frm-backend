@@ -14,3 +14,15 @@ CREATE TABLE falleros (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE pagos (
+    id SERIAL PRIMARY KEY,
+    fallero_id INTEGER NOT NULL REFERENCES falleros(id) ON DELETE CASCADE,
+    ejercicio INTEGER NOT NULL,
+    tipo_pago VARCHAR(20) NOT NULL,
+    periodo VARCHAR(20) NOT NULL,
+    estado VARCHAR(20) NOT NULL DEFAULT 'pendiente',
+    fecha_pago DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

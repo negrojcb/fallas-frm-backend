@@ -168,10 +168,25 @@ const toggleFalleroActive = async (id) => {
   return result.rows[0];
 };
 
+const getPagosByFalleroId = async (falleroId) => {
+  const result = await pool.query(
+    `
+    SELECT *
+    FROM pagos
+    WHERE fallero_id = $1
+    ORDER BY ejercicio DESC, periodo DESC
+    `,
+    [falleroId],
+  );
+
+  return result.rows;
+};
+
 module.exports = {
   getAllFalleros,
   getFalleroById,
   createFallero,
   updateFallero,
   toggleFalleroActive,
+  getPagosByFalleroId,
 };
