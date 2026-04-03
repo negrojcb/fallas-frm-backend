@@ -8,16 +8,84 @@ INSERT INTO falleros (
     direccion,
     telefono,
     email,
-    cargo
-) VALUES (
-    'Juan',
-    'Bonelli',
-    'Cruz',
-    '12345678A',
-    '1990-05-15',
-    '2023-03-01',
-    'Calle Falsa 123',
-    '600123123',
-    'juan@example.com',
-    'Vocal'
+    cargo,
+    activo
+) VALUES 
+(
+    'Lucía',
+    'García',
+    'Martínez',
+    '22334455A',
+    '1998-03-12',
+    '2022-01-10',
+    'Carrer Colón 10',
+    '611111111',
+    'lucia@example.com',
+    'Secretaria',
+    true
+),
+(
+    'Carlos',
+    'Pérez',
+    'Navarro',
+    '33445566B',
+    '1987-07-21',
+    '2021-09-15',
+    'Avinguda del Port 25',
+    '622222222',
+    'carlos@example.com',
+    'Presidente',
+    true
+),
+(
+    'Marina',
+    'López',
+    'Soler',
+    '44556677C',
+    '2005-11-02',
+    '2024-02-01',
+    'Carrer de la Pau 8',
+    '633333333',
+    'marina@example.com',
+    'Fallera',
+    true
+),
+(
+    'Andrés',
+    'García',
+    'Ruiz',
+    '55667788D',
+    '1992-05-09',
+    '2020-06-20',
+    'Plaça del Mercat 3',
+    '644444444',
+    'andres@example.com',
+    'Vocal',
+    false
+),
+(
+    'Sofía',
+    'Martínez',
+    'Ortega',
+    '66778899E',
+    '2001-01-18',
+    '2023-04-12',
+    'Carrer Xàtiva 40',
+    '655555555',
+    'sofia@example.com',
+    'Tesorera',
+    true
+),
+(
+    'Javier',
+    'Ruiz',
+    'Torres',
+    '77889900F',
+    '1990-09-30',
+    '2019-10-05',
+    'Gran Via 14',
+    '666666666',
+    'javier@example.com',
+    'Delegado',
+    false
 );

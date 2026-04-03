@@ -1,11 +1,38 @@
 const pool = require("../db/pool");
 
-const getAllFalleros = async () => {
-  const result = await pool.query(`
+const getAllFalleros = async ({ dni, search, activo }) => {
+  let query = `
     SELECT *
     FROM falleros
-    ORDER BY apellido_1 ASC, apellido_2 ASC, nombre ASC
-  `);
+  `;
+
+  const conditions = [];
+  const values = [];
+
+  if (dni) {
+    values.push(dni);
+    conditions.push(`LOWER(dni) = LOWER($${values.length})`);
+  }
+
+  if (search) {
+    values.push(`%${search}%`);
+    conditions.push(`(
+      nombre ILIKE $${values.length}
+      OR apellido_1 ILIKE $${values.length} 
+      OR apellido_2 ILIKE $${values.length})`);
+  }
+
+  if (activo !== undefined) {
+    values.push(activo === "true");
+    conditions.push(`activo = $${values.length}`);
+  }
+
+  if (conditions.length > 0) {
+    query += ` WHERE ${conditions.join(" AND ")}`;
+  }
+  query += ` ORDER BY apellido_1 ASC, apellido_2 ASC, nombre ASC`;
+
+  const result = await pool.query(query, values);
 
   return result.rows;
 };

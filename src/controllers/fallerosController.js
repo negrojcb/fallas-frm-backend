@@ -8,7 +8,7 @@ const {
 
 const getFalleros = async (req, res) => {
   try {
-    const falleros = await getAllFalleros();
+    const falleros = await getAllFalleros(req.query);
     res.json(falleros);
   } catch (error) {
     console.error(error);
