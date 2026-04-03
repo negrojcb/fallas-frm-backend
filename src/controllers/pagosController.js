@@ -1,5 +1,9 @@
 const { getFalleroById } = require("../queries/fallerosQueries");
-const { createPago } = require("../queries/pagosQueries");
+const {
+  createPago,
+  updatePago,
+  deletePago,
+} = require("../queries/pagosQueries");
 
 const postPago = async (req, res) => {
   try {
@@ -20,6 +24,53 @@ const postPago = async (req, res) => {
   }
 };
 
+const putPago = async (req, res) => {
+  try {
+    const { pagoId } = req.params;
+    const updatedPago = await updatePago(pagoId, req.body);
+
+    if (!updatedPago) {
+      return res.status(404).json({
+        message: "Pago not found",
+      });
+    }
+
+    res.json(updatedPago);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error updating pago",
+      error: error.message,
+    });
+  }
+};
+
+const removePago = async (req, res) => {
+  try {
+    const { pagoId } = req.params;
+    const deletedPago = await deletePago(pagoId);
+
+    if (!deletedPago) {
+      return res.status(404).json({
+        message: "Pago not found",
+      });
+    }
+
+    res.json({
+      message: "Pago deleted successfully",
+      pago: deletedPago,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error deleting pago",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   postPago,
+  putPago,
+  removePago,
 };
