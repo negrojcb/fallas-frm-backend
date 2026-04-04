@@ -1,6 +1,7 @@
 const pool = require("../db/pool");
+const getComisionByBirthDate = require("../utils/getComisionByBirthDate");
 
-const getAllFalleros = async ({ dni, search, activo }) => {
+const getAllFalleros = async ({ dni, search, activo, comision } = {}) => {
   let query = `
     SELECT *
     FROM falleros
@@ -34,7 +35,16 @@ const getAllFalleros = async ({ dni, search, activo }) => {
 
   const result = await pool.query(query, values);
 
-  return result.rows;
+  let falleros = result.rows.map((fallero) => ({
+    ...fallero,
+    comision: getComisionByBirthDate(fallero.fecha_nacimiento),
+  }));
+
+  if (comision) {
+    falleros = falleros.filter((fallero) => fallero.comision === comision);
+  }
+
+  return falleros;
 };
 
 const getFalleroById = async (id) => {
@@ -47,7 +57,14 @@ const getFalleroById = async (id) => {
     [id],
   );
 
-  return result.rows[0];
+  const fallero = result.rows[0];
+
+  if (!fallero) return undefined;
+
+  return {
+    ...fallero,
+    comision: getComisionByBirthDate(fallero.fecha_nacimiento),
+  };
 };
 
 const createFallero = async ({
