@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const pool = require("./db/pool");
 const fallerosRoutes = require("./routes/fallerosRoutes");
 const pagosRoutes = require("./routes/pagosRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 dotenv.config();
 
@@ -34,5 +35,6 @@ app.get("/test-db", async (req, res) => {
 
 app.use("/api/falleros", fallerosRoutes);
 app.use("/api/pagos", pagosRoutes);
+app.use("/api/auth", authRoutes);
 
 module.exports = app;
