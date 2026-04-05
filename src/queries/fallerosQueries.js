@@ -1,5 +1,6 @@
 const pool = require("../db/pool");
 const getComisionByBirthDate = require("../utils/getComisionByBirthDate");
+const getBunyolsByFallero = require("../utils/getBunyolsByFallero");
 
 const getAllFalleros = async ({ dni, search, activo, comision } = {}) => {
   let query = `
@@ -64,6 +65,7 @@ const getFalleroById = async (id) => {
   return {
     ...fallero,
     comision: getComisionByBirthDate(fallero.fecha_nacimiento),
+    bunyols: getBunyolsByFallero(fallero),
   };
 };
 
