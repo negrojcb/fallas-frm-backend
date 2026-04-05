@@ -1,6 +1,6 @@
 # Fallas FRM Backend
 
-API REST para gestionar falleros y pagos de una comisión fallera.
+REST API built to manage falleros and payments for a falla commission.
 
 ## Stack
 
@@ -12,33 +12,34 @@ API REST para gestionar falleros y pagos de una comisión fallera.
 - cors
 - nodemon
 
-## Instalación
+## Installation
 
 ```bash
-git clone <URL_DEL_REPO_BACKEND>
+git clone <BACKEND_REPO_URL>
 cd fallas-frm-backend
 npm install
 ```
 
-## Variables de entorno
+## Environment Variables
 
-Crear un archivo `.env`:
+Create a `.env` file:
 
 ```env
 PORT=3000
-DATABASE_URL=postgresql://usuario@localhost:5432/fallas_frm_db
-JWT_SECRET=tu_clave_secreta
+DATABASE_URL=postgresql://USER@localhost:5432/DATABASE_NAME
+ADMIN_USER=admin
+ADMIN_PASSWORD=your_admin_password
 ```
 
-## Base de datos
+## Database
 
-Crear la base:
+Create the database:
 
 ```sql
 CREATE DATABASE fallas_frm_db;
 ```
 
-Ejecutar el schema:
+Run the schema:
 
 ```bash
 psql fallas_frm_db -f sql/schema.sql
@@ -51,12 +52,16 @@ npm run dev
 npm start
 ```
 
-## Endpoints principales
+## Main Endpoints
 
 ### Health check
 
 - `GET /`
 - `GET /test-db`
+
+### Auth
+
+- `POST /api/auth/login`
 
 ### Falleros
 
@@ -66,38 +71,51 @@ npm start
 - `PUT /api/falleros/:id`
 - `PUT /api/falleros/:id/toggle-active`
 
-### Filtros
+### Filters
 
 - `GET /api/falleros?search=garcia`
+- `GET /api/falleros?dni=12345678A`
 - `GET /api/falleros?activo=true`
 - `GET /api/falleros?activo=false`
 - `GET /api/falleros?comision=mayor`
 - `GET /api/falleros?comision=infantil`
 
-### Pagos
+### Payments
 
 - `POST /api/falleros/:id/pagos`
 - `PUT /api/pagos/:pagoId`
 - `DELETE /api/pagos/:pagoId`
 
-## Comisión calculada
+## Computed Commission
 
-La comisión no se guarda en base de datos.  
-Se calcula a partir de la fecha de nacimiento:
+Commission is not stored in the database.
+It is computed from the birth date:
 
-- `infantil`: menor de 14 años
-- `mayor`: 14 años o más
+- `infantil`: under 14 years old
+- `mayor`: 14 years old or older
+
+## Computed Bunyols
+
+Bunyols are also computed values.
+They are derived from the fallero `fecha_alta` and displayed in the fallero detail response.
+
+## Authentication
+
+The backend includes a simple admin login endpoint.
+
+- credentials are validated against environment variables
+- successful login returns a basic admin user object
+- current implementation is intended for MVP/demo purposes
 
 ## Deploy
 
-Backend en producción:
+Production backend:
 
 `https://fallas-frm-backend.onrender.com`
 
-## Próximas mejoras
+## Next Improvements
 
-- endpoint `GET /api/pagos/:pagoId`
-- bunyols en detalle del fallero
-- validaciones más completas
-- tests unitarios
-- autenticación y autorización
+- `GET /api/pagos/:pagoId` endpoint
+- stronger validations for business rules and input formats
+- unit tests
+- full backend route protection with real authentication/authorization
